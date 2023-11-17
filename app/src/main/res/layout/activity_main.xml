@@ -14,7 +14,7 @@
             android:id="@+id/toolBarLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="?attr/colorBackgroundFloating"
             app:expandedTitleGravity="top"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
@@ -29,7 +29,8 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
-    <include layout="@layout/content_main" />
+
+    <include layout="@layout/content_main"/>
 
 
 
