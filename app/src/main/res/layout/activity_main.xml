@@ -14,7 +14,7 @@
             android:id="@+id/toolBarLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:contentScrim="?attr/colorBackgroundFloating"
+            app:contentScrim="?attr/colorPrimaryContainer"
             app:expandedTitleGravity="top"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 

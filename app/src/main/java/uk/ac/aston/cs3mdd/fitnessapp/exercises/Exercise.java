@@ -1,28 +1,50 @@
 package uk.ac.aston.cs3mdd.fitnessapp.exercises;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.List;
 
 public class Exercise implements Serializable {
-    private int id;
+    private String bodyPart;
+
+    private String gifUrl;
+
+    private String id;
+
     private String name;
-    private String description;
 
-    private int exercise_base;
+    private String target;
 
-    private int language;
+    private List<String> instructions;
 
-    private int category;
+    public List<String> getInstructions() {
+        return instructions;
+    }
 
-    private int [] muscles;
+    public void setInstructions(List<String> instructions) {
+        this.instructions = instructions;
+    }
 
-    private int [] muscles_secondary;
+    public String getBodyPart() {
+        return bodyPart;
+    }
 
-    public int getId() {
+    public void setBodyPart(String bodyPart) {
+        this.bodyPart = bodyPart;
+    }
+
+    public String getGifUrl() {
+        return gifUrl;
+    }
+
+    public void setGifUrl(String gifUrl) {
+        this.gifUrl = gifUrl;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -34,65 +56,11 @@ public class Exercise implements Serializable {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getTarget() {
+        return target;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getExercise_base() {
-        return exercise_base;
-    }
-
-    public void setExercise_base(int exercise_base) {
-        this.exercise_base = exercise_base;
-    }
-
-    public int getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(int language) {
-        this.language = language;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
-    }
-
-    public int[] getMuscles() {
-        return muscles;
-    }
-
-    public void setMuscles(int[] muscles) {
-        this.muscles = muscles;
-    }
-
-    public int[] getMuscles_secondary() {
-        return muscles_secondary;
-    }
-
-    public void setMuscles_secondary(int[] muscles_secondary) {
-        this.muscles_secondary = muscles_secondary;
-    }
-
-    @Override
-    public String toString() {
-        return "Exercise{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", exercise_base=" + exercise_base +
-                ", language=" + language +
-                ", category=" + category +
-                ", muscles=" + Arrays.toString(muscles) +
-                ", muscles_secondary=" + Arrays.toString(muscles_secondary) +
-                '}';
+    public void setTarget(String target) {
+        this.target = target;
     }
 }

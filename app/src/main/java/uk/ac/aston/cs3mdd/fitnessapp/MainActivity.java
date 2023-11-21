@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "Fitness";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
