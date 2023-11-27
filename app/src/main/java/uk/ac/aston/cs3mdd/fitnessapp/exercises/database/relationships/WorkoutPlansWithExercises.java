@@ -1,12 +1,12 @@
-package uk.ac.aston.cs3mdd.fitnessapp.database.relationships;
+package uk.ac.aston.cs3mdd.fitnessapp.exercises.database.relationships;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
 import java.util.List;
 
-import uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise;
-import uk.ac.aston.cs3mdd.fitnessapp.database.entities.WorkoutPlan;
+import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.entities.Exercise;
+import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.entities.WorkoutPlan;
 
 public class WorkoutPlansWithExercises {
     @Embedded

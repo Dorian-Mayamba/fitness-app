@@ -1,4 +1,4 @@
-package uk.ac.aston.cs3mdd.fitnessapp.database.entities;
+package uk.ac.aston.cs3mdd.fitnessapp.exercises.database.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

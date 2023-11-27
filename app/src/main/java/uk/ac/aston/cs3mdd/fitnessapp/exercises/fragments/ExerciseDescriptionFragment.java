@@ -1,4 +1,4 @@
-package uk.ac.aston.cs3mdd.fitnessapp;
+package uk.ac.aston.cs3mdd.fitnessapp.exercises.fragments;
 
 import android.os.Bundle;
 

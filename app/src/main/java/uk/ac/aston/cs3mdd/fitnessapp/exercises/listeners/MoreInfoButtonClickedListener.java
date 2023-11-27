@@ -3,8 +3,8 @@ package uk.ac.aston.cs3mdd.fitnessapp.exercises.listeners;
 import android.view.View;
 
 import androidx.navigation.Navigation;
-import uk.ac.aston.cs3mdd.fitnessapp.GymFragmentDirections;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.Exercise;
+import uk.ac.aston.cs3mdd.fitnessapp.exercises.fragments.GymFragmentDirections;
 
 public class MoreInfoButtonClickedListener implements View.OnClickListener{
 

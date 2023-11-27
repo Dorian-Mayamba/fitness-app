@@ -1,4 +1,4 @@
-package uk.ac.aston.cs3mdd.fitnessapp;
+package uk.ac.aston.cs3mdd.fitnessapp.exercises.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +18,8 @@ import java.util.List;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import uk.ac.aston.cs3mdd.fitnessapp.MainActivity;
+import uk.ac.aston.cs3mdd.fitnessapp.R;
 import uk.ac.aston.cs3mdd.fitnessapp.databinding.FragmentGymsBinding;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.Exercise;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.adapters.ExerciseAdapter;

@@ -21,4 +21,8 @@ public class ExerciseRepository {
         return this.exercisesService.getBodyParts();
     }
 
+    public Call<List<Exercise>> getExercisesFromBodyPart(String bodyPart){
+        return this.exercisesService.getExercisesFromBodyPart(bodyPart);
+    }
+
 }

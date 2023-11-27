@@ -18,7 +18,7 @@
         tools:layout="@layout/fragment_food"/>
     <fragment
         android:id="@+id/GymFragment"
-        android:name="uk.ac.aston.cs3mdd.fitnessapp.GymFragment"
+        android:name="uk.ac.aston.cs3mdd.fitnessapp.exercises.fragments.GymFragment"
         android:label="@string/gymFragmentLabel"
         tools:layout="@layout/fragment_gyms">
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/ExerciseDescriptionFragment"
-        android:name="uk.ac.aston.cs3mdd.fitnessapp.ExerciseDescriptionFragment"
+        android:name="uk.ac.aston.cs3mdd.fitnessapp.exercises.fragments.ExerciseDescriptionFragment"
         android:label="@string/hello_description_fragment"
         tools:layout="@layout/fragment_exercise_description"
         >
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/create_workout_plan"
-        android:name="uk.ac.aston.cs3mdd.fitnessapp.CreateWorkoutPlanFragment"
+        android:name="uk.ac.aston.cs3mdd.fitnessapp.exercises.fragments.ManageWorkoutPlanFragment"
         android:label="@string/hello_workout_fragment"
-        tools:layout="@layout/fragment_create_workout_plan"/>
+        tools:layout="@layout/fragment_manage_workout_plan"/>
 </navigation>
