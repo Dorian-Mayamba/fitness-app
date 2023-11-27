@@ -54,6 +54,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_workout_fragment">Create workout plan</string>
     <string name="select">Select Items</string>
+    <string name="select_exercise">Select exercises</string>
     <string name="select_day">Enter a Day</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -63,4 +64,5 @@
     <string name="empty_field_alert_title">Please select a body part item</string>
     <string name="empty_day_alert_title">Please enter a day</string>
     <string name="invalid_day_title">Please enter a valid day</string>
+    <string name="food_edit_text_hint">Enter a food product</string>
 </resources>

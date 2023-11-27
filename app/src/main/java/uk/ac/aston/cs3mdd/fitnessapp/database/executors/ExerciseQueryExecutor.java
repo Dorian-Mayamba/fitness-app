@@ -1,4 +1,4 @@
-package uk.ac.aston.cs3mdd.fitnessapp.exercises.database.executors;
+package uk.ac.aston.cs3mdd.fitnessapp.database.executors;
 
 import java.util.concurrent.Executor;
 
@@ -10,6 +10,9 @@ public class ExerciseQueryExecutor implements Executor {
     ExerciseQueryExecutor(){}
     @Override
     public void execute(Runnable command) {
-        command.run();
+        Thread thread = new Thread(()->{
+            command.run();
+        });
+        thread.start();
     }
 }

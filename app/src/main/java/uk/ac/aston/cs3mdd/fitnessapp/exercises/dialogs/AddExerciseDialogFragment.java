@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import java.util.List;
 
 import uk.ac.aston.cs3mdd.fitnessapp.R;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.models.ExerciseViewModel;
+import uk.ac.aston.cs3mdd.fitnessapp.database.models.ExerciseViewModel;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.Exercise;
 
 /**

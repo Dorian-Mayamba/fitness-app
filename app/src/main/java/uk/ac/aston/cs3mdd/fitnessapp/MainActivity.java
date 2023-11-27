@@ -14,12 +14,14 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.FitnessDatabase;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.models.ExerciseViewModel;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.repositories.ExercisesRepository;
+import uk.ac.aston.cs3mdd.fitnessapp.database.FitnessDatabase;
+import uk.ac.aston.cs3mdd.fitnessapp.database.models.ExerciseViewModel;
+import uk.ac.aston.cs3mdd.fitnessapp.database.repositories.ExercisesRepository;
 import uk.ac.aston.cs3mdd.fitnessapp.databinding.ActivityMainBinding;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.Exercise;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.AddExerciseDialogFragment;
+import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.DeleteExerciseDialogFragment;
+import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.EditExerciseDialogFragment;
 
 import android.util.Log;
 import android.view.Menu;
@@ -30,13 +32,13 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity implements AddExerciseDialogFragment.AddExerciseDialogListener {
+public class MainActivity extends AppCompatActivity implements AddExerciseDialogFragment.AddExerciseDialogListener, DeleteExerciseDialogFragment.DeleteDialogListener,
+        EditExerciseDialogFragment.EditDialogListener {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
     public static final String TAG = "Fitness";
-
     private ExerciseViewModel model;
     private ExercisesRepository exercisesRepository;
     @Inject
@@ -56,14 +58,14 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         setSupportActionBar(binding.toolBar);
-        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.toolBarLayout,binding.toolBar,navController,appBarConfiguration);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(binding.toolBarLayout, binding.toolBar, navController, appBarConfiguration);
         model = new ViewModelProvider(this).get(ExerciseViewModel.class);
-        if(executor!=null){
+        if (executor != null) {
             Log.i(MainActivity.TAG, "Successfully inject executor");
         }
-        this.exercisesRepository = new ExercisesRepository(executor,handler);
-        this.exercisesRepository.loadExercises(database, model);
+        this.exercisesRepository = new ExercisesRepository(executor, handler);
+        exercisesRepository.loadExercises(database, model);
     }
 
     @Override
@@ -78,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment_content_main);
-        return NavigationUI.onNavDestinationSelected(item,navController)
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.onNavDestinationSelected(item, navController)
                 || super.onOptionsItemSelected(item);
     }
 
@@ -93,20 +95,40 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, Exercise exercise, String day) {
         //When the user confirms the exercise to add
-        uk.ac.aston.cs3mdd.fitnessapp.exercises.database.entities.Exercise exerciseToAdd = new uk.ac.aston.cs3mdd.fitnessapp.exercises.database.entities.Exercise();
+        uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise exerciseToAdd = new uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise();
         exerciseToAdd.setExerciseImg(exercise.getGifUrl());
         String instructions = "";
-        for(String i:exercise.getInstructions()){
-            instructions+= i + '\n';
+        for (String i : exercise.getInstructions()) {
+            instructions += i + '\n';
         }
         exerciseToAdd.setExerciseInstructions(instructions);
         exerciseToAdd.setExerciseName(exercise.getName());
         exerciseToAdd.setBodyPart(exercise.getBodyPart());
-        this.exercisesRepository.insertExercise(database,model,exerciseToAdd,day);
+        exercisesRepository.insertExercise(database, model, exerciseToAdd, day);
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         dialog.dismiss();
+    }
+
+    @Override
+    public void onCancelDeletePressed(DialogFragment dialogFragment) {
+        dialogFragment.dismiss();
+    }
+
+    @Override
+    public void onConfirmDeletePressed(DialogFragment dialogFragment, uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise exercise) {
+        exercisesRepository.deleteExercise(database, model, exercise);
+    }
+
+    @Override
+    public void onEditConfirm(DialogFragment fragment, uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise exercise) {
+
+    }
+
+    @Override
+    public void onEditCancel(DialogFragment fragment) {
+        fragment.dismiss();
     }
 }

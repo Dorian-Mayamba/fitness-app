@@ -1,4 +1,4 @@
-package uk.ac.aston.cs3mdd.fitnessapp.exercises.database.entities;
+package uk.ac.aston.cs3mdd.fitnessapp.database.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -22,7 +22,7 @@ public class WorkoutPlan {
         this.day = day;
     }
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "day")

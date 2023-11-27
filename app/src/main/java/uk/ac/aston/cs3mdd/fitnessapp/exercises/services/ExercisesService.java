@@ -2,6 +2,7 @@ package uk.ac.aston.cs3mdd.fitnessapp.exercises.services;
 
 import java.util.List;
 
+import dagger.hilt.android.scopes.FragmentScoped;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -29,4 +30,7 @@ public interface ExercisesService {
     })
     @GET("/exercises/bodyPart/{bodyPart}")
     Call<List<Exercise>> getExercisesFromBodyPart(@Path("bodyPart") String bodyPart);
+
+    @GET("/exercises/exercise/{id}")
+    Call<Exercise> getExerciseFromId(@Path("id") int exerciseId);
 }

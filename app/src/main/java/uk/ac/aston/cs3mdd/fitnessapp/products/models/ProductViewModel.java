@@ -37,13 +37,11 @@ public class ProductViewModel extends ViewModel{
     }
 
     public void addProducts(ProductList productList){
-        if(this.allProducts.getValue().size() == 0){
-            Log.i(MainActivity.TAG, "Adding the new products to the list");
-            this.allProducts.getValue().addAll(productList.getProducts());
-            this.allProducts.setValue(this.allProducts.getValue());
-        }else{
-            Log.i(MainActivity.TAG, "Food product list not empty, updating the list");
-            this.allProducts.setValue(productList.getProducts());
+        if(this.allProducts.getValue().size() > 0){
+            Log.i(MainActivity.TAG, "Clearing the list");
+            allProducts.getValue().clear();
         }
+        allProducts.getValue().addAll(productList.getProducts());
+        allProducts.setValue(allProducts.getValue());
     }
 }

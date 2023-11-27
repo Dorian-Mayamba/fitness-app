@@ -1,4 +1,4 @@
-package uk.ac.aston.cs3mdd.fitnessapp.exercises.database.daos;
+package uk.ac.aston.cs3mdd.fitnessapp.database.daos;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -8,7 +8,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.entities.WorkoutPlan;
+import uk.ac.aston.cs3mdd.fitnessapp.database.entities.WorkoutPlan;
 
 @Dao
 public interface WorkoutPlanDao {

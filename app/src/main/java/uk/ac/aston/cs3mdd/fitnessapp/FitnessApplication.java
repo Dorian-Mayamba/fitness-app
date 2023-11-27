@@ -12,9 +12,6 @@ import dagger.hilt.android.HiltAndroidApp;
 public class FitnessApplication extends Application {
 
     private static Context appContext;
-
-    ExecutorService executorService = Executors.newFixedThreadPool(4);
-
     @Override
     public void onCreate() {
         super.onCreate();

@@ -20,20 +20,17 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import uk.ac.aston.cs3mdd.fitnessapp.MainActivity;
 import uk.ac.aston.cs3mdd.fitnessapp.R;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.adapters.ExerciseAdapter;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.FitnessDatabase;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.models.ExerciseViewModel;
+import uk.ac.aston.cs3mdd.fitnessapp.database.adapters.ExerciseAdapter;
+import uk.ac.aston.cs3mdd.fitnessapp.database.FitnessDatabase;
+import uk.ac.aston.cs3mdd.fitnessapp.database.models.ExerciseViewModel;
 import uk.ac.aston.cs3mdd.fitnessapp.databinding.FragmentManageWorkoutPlanBinding;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.Exercise;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.adapters.BodyPartsAdapter;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.database.observers.ExercisesObserver;
+import uk.ac.aston.cs3mdd.fitnessapp.database.observers.ExercisesObserver;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.AddExerciseDialogFragment;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.EmptyDayDialogFragment;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.EmptyFieldDialogFragment;
@@ -51,13 +48,10 @@ import uk.ac.aston.cs3mdd.fitnessapp.exercises.listeners.TargetItemClickListener
  * Use the {@link ManageWorkoutPlanFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ManageWorkoutPlanFragment extends Fragment{
+public class ManageWorkoutPlanFragment extends Fragment {
 
     private FragmentManageWorkoutPlanBinding binding;
     private BodyPartViewModel model;
-
-
-
     private ExerciseViewModel dbExerciseViewModel;
 
     private FitnessDatabase fitnessDatabase;
@@ -73,7 +67,7 @@ public class ManageWorkoutPlanFragment extends Fragment{
 
     private EditText dayEditText;
 
-    private String [] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    private String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
     private EmptyDayDialogFragment emptyDayDialogFragment;
 
@@ -82,6 +76,10 @@ public class ManageWorkoutPlanFragment extends Fragment{
     private RecyclerView recyclerView;
 
     private ExerciseAdapter exerciseAdapter;
+
+    private ExercisesService service;
+
+    private Retrofit retrofit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,52 +101,53 @@ public class ManageWorkoutPlanFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.exercises_list_view);
-        exerciseAdapter = new ExerciseAdapter(getContext(), dbExerciseViewModel.getAllElements().getValue());
+        exerciseAdapter = new ExerciseAdapter(getContext(), dbExerciseViewModel.getAllElements().getValue(), getActivity().getSupportFragmentManager());
         recyclerView.setAdapter(exerciseAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl("https://exercisedb.p.rapidapi.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        ExercisesService service = retrofit.create(ExercisesService.class);
+        service = retrofit.create(ExercisesService.class);
         ExerciseRepository repository = new ExerciseRepository(service);
         model.requestBodyParts(repository);
         adapter = new BodyPartsAdapter(getContext(), R.layout.target_items, model.getAllBodyParts().getValue());
         autoCompleteTextView = view.findViewById(R.id.auto_complete_txt);
         autoCompleteTextView.setAdapter(adapter);
-        final AdapterView.OnItemClickListener itemClickListener = new TargetItemClickListener(getContext(), bodyPartsExercisesViewModel,repository);
+        final AdapterView.OnItemClickListener itemClickListener = new TargetItemClickListener(getContext(), bodyPartsExercisesViewModel, repository);
         autoCompleteTextView.setOnItemClickListener(itemClickListener);
         TargetItemClickListener listener = (TargetItemClickListener) autoCompleteTextView.getOnItemClickListener();
         binding.addExerciseButton.setOnClickListener(new View.OnClickListener() {
 
             private String day;
+
             @Override
             public void onClick(View v) {
-                if (listener.getSelectedItem() != null){
+                if (listener.getSelectedItem() != null) {
                     // Checks if the user has selected a body part to workout
                     this.day = binding.workoutDay.getText().toString();
-                    if (this.day.isEmpty()){
+                    if (this.day.isEmpty()) {
                         //True if the user has left the day field empty
                         emptyDayDialogFragment.show(getActivity().getSupportFragmentManager(), "EMPTY_DAY");
                         return;
-                    }else{
+                    } else {
                         //Checks if the day is valid
                         char upper = Character.toUpperCase(day.charAt(0));
                         day = upper + day.substring(1);
                         Log.i(MainActivity.TAG, day);
                         boolean isValidDay = false;
-                        for (String targetDay:days){
+                        for (String targetDay : days) {
                             isValidDay = targetDay.equals(this.day);
-                            if(isValidDay) break;
+                            if (isValidDay) break;
                         }
-                        if(!isValidDay){
+                        if (!isValidDay) {
                             invalidDayDialogFragment.show(getActivity().getSupportFragmentManager(), "INVALID_DAY");
                             return;
                         }
                     }
                     AddExerciseDialogFragment dialogFragment = AddExerciseDialogFragment.getInstance(exercises, getContext(), dbExerciseViewModel, this.day);
                     dialogFragment.show(getActivity().getSupportFragmentManager(), "Exercises");
-                }else{
+                } else {
                     emptyFieldDialogFragment.show(getActivity().getSupportFragmentManager(), "EMPTY_FIELD");
                 }
             }
@@ -157,6 +156,6 @@ public class ManageWorkoutPlanFragment extends Fragment{
         final Observer<List<Exercise>> exerciseObserver = new ExerciseFromBodyPartObserver(exercises);
         model.getAllBodyParts().observe(getViewLifecycleOwner(), targetObserver);
         bodyPartsExercisesViewModel.getAllExercises().observe(getViewLifecycleOwner(), exerciseObserver);
-        dbExerciseViewModel.getAllElements().observe(getViewLifecycleOwner(),new ExercisesObserver(exerciseAdapter));
+        dbExerciseViewModel.getAllElements().observe(getViewLifecycleOwner(), new ExercisesObserver(exerciseAdapter));
     }
 }

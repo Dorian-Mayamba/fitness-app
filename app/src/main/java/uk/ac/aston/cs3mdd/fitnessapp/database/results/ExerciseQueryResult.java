@@ -1,4 +1,4 @@
-package uk.ac.aston.cs3mdd.fitnessapp.exercises.database.results;
+package uk.ac.aston.cs3mdd.fitnessapp.database.results;
 
 import java.util.List;
 

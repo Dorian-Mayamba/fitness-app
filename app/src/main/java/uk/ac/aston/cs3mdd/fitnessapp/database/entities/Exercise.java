@@ -1,4 +1,4 @@
-package uk.ac.aston.cs3mdd.fitnessapp.exercises.database.entities;
+package uk.ac.aston.cs3mdd.fitnessapp.database.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
         onDelete = ForeignKey.CASCADE
 ))
 public class Exercise {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int exerciseId;
 
     @ColumnInfo(name = "exercise_name")
