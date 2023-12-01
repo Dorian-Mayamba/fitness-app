@@ -1,5 +1,8 @@
 package uk.ac.aston.cs3mdd.fitnessapp.exercises;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -62,5 +65,21 @@ public class Exercise implements Serializable {
 
     public void setTarget(String target) {
         this.target = target;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        Exercise other = (Exercise) obj;
+        return this.id == other.getId()
+                && this.name.equals(other.getName())
+                && this.instructions.equals(other.getInstructions())
+                && this.bodyPart.equals(other.getBodyPart());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return
+                this.name + " " + this.bodyPart + " " + this.target+ " " + this.instructions;
     }
 }

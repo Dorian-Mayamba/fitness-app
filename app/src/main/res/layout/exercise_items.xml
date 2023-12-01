@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -41,8 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/edit_button"
-                android:text="Edit"
-                android:textSize="24sp"
+                android:text="Swap Exercise"
+                android:textSize="16.5sp"
                 />
 
             <Button
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/delete_button"
                 android:text="Delete"
-                android:textSize="24sp"
+                android:textSize="16.5sp"
                 />
 
             <Button
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/instruction_button"
                 android:text="instructions"
-                android:textSize="24sp"
+                android:textSize="16.5sp"
                 />
 
         </LinearLayout>

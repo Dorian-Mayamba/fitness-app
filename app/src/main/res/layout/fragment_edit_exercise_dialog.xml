@@ -6,22 +6,10 @@
     tools:context="uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.EditExerciseDialogFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/select_exercise"
-        android:layout_margin="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        app:boxBackgroundColor="@color/design_default_color_on_primary"
-        tools:ignore="MissingConstraints">
-
-        <AutoCompleteTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:id="@+id/edit_dialog_view"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/edit_dialog_recycle_view"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

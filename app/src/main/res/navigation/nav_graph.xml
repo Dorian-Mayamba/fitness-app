@@ -44,4 +44,9 @@
         android:name="uk.ac.aston.cs3mdd.fitnessapp.exercises.fragments.ManageWorkoutPlanFragment"
         android:label="@string/hello_workout_fragment"
         tools:layout="@layout/fragment_manage_workout_plan"/>
+    <fragment
+        android:id="@+id/local_gyms"
+        android:name="uk.ac.aston.cs3mdd.fitnessapp.MapsFragment"
+        android:label="@string/gym_local"
+        tools:layout="@layout/fragment_maps"/>
 </navigation>

@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             app:contentScrim="?attr/colorPrimaryContainer"
             app:expandedTitleGravity="top"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            >
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolBar"
@@ -29,6 +30,14 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
+
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_below="@+id/nav_host_fragment_content_main"-->
+<!--        app:menu="@menu/bottom_navigation"/>-->
+
 
     <include layout="@layout/content_main"/>
 

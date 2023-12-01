@@ -2,10 +2,12 @@ package uk.ac.aston.cs3mdd.fitnessapp.generics;
 
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.concurrent.Executor;
 
+import uk.ac.aston.cs3mdd.fitnessapp.FitnessApplication;
 import uk.ac.aston.cs3mdd.fitnessapp.MainActivity;
 
 public abstract class AbstractRepository<T> {

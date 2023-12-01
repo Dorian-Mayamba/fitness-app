@@ -1,7 +1,10 @@
 package uk.ac.aston.cs3mdd.fitnessapp;
 
+import android.Manifest;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
@@ -26,13 +29,19 @@ import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.EditExerciseDialogFragmen
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.List;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity implements AddExerciseDialogFragment.AddExerciseDialogListener, DeleteExerciseDialogFragment.DeleteDialogListener,
+public class MainActivity extends AppCompatActivity implements AddExerciseDialogFragment.AddExerciseDialogListener,
+        DeleteExerciseDialogFragment.DeleteDialogListener,
         EditExerciseDialogFragment.EditDialogListener {
 
     private AppBarConfiguration appBarConfiguration;
@@ -46,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     @Inject
     Handler handler;
 
+    private NavController navController;
+
     @Inject
     FitnessDatabase database;
 
@@ -55,11 +66,13 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        //BottomNavigationView navigationView = binding.bottomNavigation;
         setSupportActionBar(binding.toolBar);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.toolBarLayout, binding.toolBar, navController, appBarConfiguration);
+        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
+        //NavigationUI.setupWithNavController(navigationView, navController);
+
         model = new ViewModelProvider(this).get(ExerciseViewModel.class);
         if (executor != null) {
             Log.i(MainActivity.TAG, "Successfully inject executor");
@@ -75,6 +88,27 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
         return true;
     }
 
+    private void requestLocation(){
+        ActivityResultLauncher<String[]> locationPermissionRequest =
+                registerForActivityResult(new ActivityResultContracts.
+                        RequestMultiplePermissions(), result -> {
+                    Boolean fineLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION,false);
+                    Boolean coarseLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                    if(fineLocationGranted != null){
+                        //Approximate location request
+                    }else if(fineLocationGranted!= null && coarseLocationGranted !=null){
+                        // Precise location request
+                    }else{
+                        // Can't do location request
+                    }
+                });
+
+        locationPermissionRequest.launch(new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -87,9 +121,9 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+        return
+                NavigationUI.navigateUp(navController, appBarConfiguration)
+                        || super.onSupportNavigateUp();
     }
 
     @Override
@@ -105,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
         exerciseToAdd.setExerciseName(exercise.getName());
         exerciseToAdd.setBodyPart(exercise.getBodyPart());
         exercisesRepository.insertExercise(database, model, exerciseToAdd, day);
+        dialog.dismiss();
     }
 
     @Override
@@ -118,13 +153,29 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     }
 
     @Override
-    public void onConfirmDeletePressed(DialogFragment dialogFragment, uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise exercise) {
+    public void onConfirmDeletePressed(DialogFragment dialogFragment,
+                                       uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise
+                                               exercise) {
         exercisesRepository.deleteExercise(database, model, exercise);
+        Toast.makeText(this, "The exercise " + exercise.getExerciseName() +
+                " Has been deleted", Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public void onEditConfirm(DialogFragment fragment, uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise exercise) {
 
+    @Override
+    public void onEditConfirm(DialogFragment fragment,
+                              uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise exercise,
+                              Exercise chosenExercise) {
+        exercise.setExerciseImg(chosenExercise.getGifUrl());
+        exercise.setExerciseName(chosenExercise.getName());
+        String instructions = "";
+        List<String> exerciseInstructions = chosenExercise.getInstructions();
+        for (String i : exerciseInstructions) {
+            instructions += i + '\n';
+        }
+        exercise.setExerciseInstructions(instructions);
+        exercisesRepository.updateExercise(database, model, exercise);
+        fragment.dismiss();
     }
 
     @Override

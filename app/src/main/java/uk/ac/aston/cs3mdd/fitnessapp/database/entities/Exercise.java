@@ -1,5 +1,6 @@
 package uk.ac.aston.cs3mdd.fitnessapp.database.entities;
 
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;

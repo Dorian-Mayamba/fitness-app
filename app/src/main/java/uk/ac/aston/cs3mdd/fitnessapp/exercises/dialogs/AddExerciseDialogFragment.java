@@ -5,17 +5,23 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import uk.ac.aston.cs3mdd.fitnessapp.R;
 import uk.ac.aston.cs3mdd.fitnessapp.database.models.ExerciseViewModel;
 import uk.ac.aston.cs3mdd.fitnessapp.exercises.Exercise;
+import uk.ac.aston.cs3mdd.fitnessapp.exercises.adapters.AddExerciseAdapter;
+import uk.ac.aston.cs3mdd.fitnessapp.exercises.listeners.ExerciseItemClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,33 +62,26 @@ public class AddExerciseDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
-        builder.setSingleChoiceItems(this.toCharSequence(this.exercises), 0, new DialogInterface.OnClickListener() {
-            private CharSequence selectedItem;
-
-
-
-            private String day;
+        LayoutInflater inflater = LayoutInflater.from(this.context);
+        View addExerciseView = inflater.inflate(R.layout.fragment_add_exercise_dialgog, null);
+        RecyclerView view = addExerciseView.findViewById(R.id.add_exercise_view);
+        ExerciseItemClickListener exerciseItemClickListener = new ExerciseItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                selectedItem = sequences[which];
-                selectedExercise = exercises.get(which);
+            public void onAddExerciseClick(Exercise newExercise) {
+                listener.onDialogPositiveClick(AddExerciseDialogFragment.this,newExercise,selectedDay);
             }
-        });
-        builder.setPositiveButton(R.string.Ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //When the user press confirm, it will add the exercise as well as it details to the database
-                listener.onDialogPositiveClick(AddExerciseDialogFragment.this,selectedExercise , selectedDay);
-            }
-        });
-
+        };
+        AddExerciseAdapter adapter = new AddExerciseAdapter(exercises, this.context,exerciseItemClickListener);
+        view.setAdapter(adapter);
+        view.setLayoutManager(new LinearLayoutManager(this.context));
         builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Dismiss the dialog if the user presses cancel
                 listener.onDialogNegativeClick(AddExerciseDialogFragment.this);
             }
-        });
+        })
+                .setView(addExerciseView);
         return builder.create();
     }
 

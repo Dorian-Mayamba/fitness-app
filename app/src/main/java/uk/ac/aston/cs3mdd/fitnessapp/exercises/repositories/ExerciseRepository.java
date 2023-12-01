@@ -29,4 +29,6 @@ public class ExerciseRepository {
         return this.exercisesService.getExerciseFromId(exerciseId);
     }
 
+
+
 }
