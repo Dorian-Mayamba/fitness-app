@@ -52,7 +52,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_description_fragment">Exercise Description</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_workout_fragment">My workout plans</string>
+    <string name="workout_plan_manage_title">My workout plans</string>
     <string name="select">Select Items</string>
     <string name="select_exercise">Select exercises</string>
     <string name="select_day">Enter a Day</string>

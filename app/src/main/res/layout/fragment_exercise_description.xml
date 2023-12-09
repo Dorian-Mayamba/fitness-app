@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".exercises.fragments.ExerciseDescriptionFragment">
+    tools:context=".fragments.ExerciseDescriptionFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -18,8 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hello_description_fragment"
-            android:layout_marginBottom="12pt"
+            android:textAlignment="center"
             android:textSize="34sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1,10 +1,7 @@
 package uk.ac.aston.cs3mdd.fitnessapp;
 
-import android.Manifest;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
@@ -21,17 +18,16 @@ import uk.ac.aston.cs3mdd.fitnessapp.database.FitnessDatabase;
 import uk.ac.aston.cs3mdd.fitnessapp.database.models.ExerciseViewModel;
 import uk.ac.aston.cs3mdd.fitnessapp.database.repositories.ExercisesRepository;
 import uk.ac.aston.cs3mdd.fitnessapp.databinding.ActivityMainBinding;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.Exercise;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.AddExerciseDialogFragment;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.DeleteExerciseDialogFragment;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.EditExerciseDialogFragment;
+import uk.ac.aston.cs3mdd.fitnessapp.dialogs.AddExerciseDialogFragment;
+import uk.ac.aston.cs3mdd.fitnessapp.dialogs.DeleteExerciseDialogFragment;
+import uk.ac.aston.cs3mdd.fitnessapp.dialogs.EditExerciseDialogFragment;
+import uk.ac.aston.cs3mdd.fitnessapp.serializers.Exercise;
 
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
@@ -68,10 +64,10 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
         setContentView(binding.getRoot());
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        //BottomNavigationView navigationView = binding.bottomNavigation;
+        BottomNavigationView navigationView = binding.bottomNavigation;
         setSupportActionBar(binding.toolBar);
         NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
-        //NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupWithNavController(navigationView, navController);
 
         model = new ViewModelProvider(this).get(ExerciseViewModel.class);
         if (executor != null) {
@@ -84,29 +80,8 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.bottom_navigation, menu);
+        //getMenuInflater().inflate(R.menu.bottom_navigation, menu);
         return true;
-    }
-
-    private void requestLocation(){
-        ActivityResultLauncher<String[]> locationPermissionRequest =
-                registerForActivityResult(new ActivityResultContracts.
-                        RequestMultiplePermissions(), result -> {
-                    Boolean fineLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION,false);
-                    Boolean coarseLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false);
-                    if(fineLocationGranted != null){
-                        //Approximate location request
-                    }else if(fineLocationGranted!= null && coarseLocationGranted !=null){
-                        // Precise location request
-                    }else{
-                        // Can't do location request
-                    }
-                });
-
-        locationPermissionRequest.launch(new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-        });
     }
 
     @Override

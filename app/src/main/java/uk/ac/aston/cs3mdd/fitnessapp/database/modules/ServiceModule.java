@@ -1,15 +1,12 @@
 package uk.ac.aston.cs3mdd.fitnessapp.database.modules;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.components.FragmentComponent;
-import dagger.hilt.components.SingletonComponent;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.services.ExercisesService;
+import uk.ac.aston.cs3mdd.fitnessapp.services.ExercisesService;
 
 @Module
 @InstallIn(FragmentComponent.class)

@@ -7,6 +7,10 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
+def apiKeyPropertyFiles = rootProject.file("secrets.properties")
+def apiKeyProperty = new Properties()
+apiKeyProperty.load(new FileInputStream(apiKeyPropertyFiles))
+android.buildFeatures.buildConfig = true
 android {
     namespace 'uk.ac.aston.cs3mdd.fitnessapp'
     compileSdk 34
@@ -22,6 +26,10 @@ android {
     }
 
     buildTypes {
+        debug{
+            buildConfigField("String", "MAPS_API_KEY", apiKeyProperty['MAPS_API_KEY'])
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -37,6 +45,7 @@ android {
 }
 dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     def nav_version = "2.7.5"
     def room_version = "2.6.0"
     def hilt_version = "2.44"

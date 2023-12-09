@@ -8,45 +8,52 @@
 
     <fragment
         android:id="@+id/HomeFragment"
-        android:name="uk.ac.aston.cs3mdd.fitnessapp.HomeFragment"
+        android:name="uk.ac.aston.cs3mdd.fitnessapp.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/FoodFragment"
-        android:name="uk.ac.aston.cs3mdd.fitnessapp.FoodFragment"
+        android:name="uk.ac.aston.cs3mdd.fitnessapp.fragments.FoodFragment"
         android:label="@string/foodFragmentLabel"
         tools:layout="@layout/fragment_food"/>
     <fragment
         android:id="@+id/GymFragment"
-        android:name="uk.ac.aston.cs3mdd.fitnessapp.exercises.fragments.GymFragment"
+        android:name="uk.ac.aston.cs3mdd.fitnessapp.fragments.GymFragment"
         android:label="@string/gymFragmentLabel"
         tools:layout="@layout/fragment_gyms">
         <action
             android:id="@+id/action_GymFragment_to_ExerciseDescriptionFragment"
             app:destination="@id/ExerciseDescriptionFragment" />
+        <action
+            android:id="@+id/action_GymFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/ExerciseDescriptionFragment"
-        android:name="uk.ac.aston.cs3mdd.fitnessapp.exercises.fragments.ExerciseDescriptionFragment"
+        android:name="uk.ac.aston.cs3mdd.fitnessapp.fragments.ExerciseDescriptionFragment"
         android:label="@string/hello_description_fragment"
         tools:layout="@layout/fragment_exercise_description"
         >
 
         <argument
             android:name="exercise"
-            app:argType="uk.ac.aston.cs3mdd.fitnessapp.exercises.Exercise" />
+            app:argType="uk.ac.aston.cs3mdd.fitnessapp.serializers.Exercise" />
         <action
             android:id="@+id/action_ExerciseDescriptionFragment_to_GymFragment"
             app:destination="@id/GymFragment" />
     </fragment>
     <fragment
         android:id="@+id/create_workout_plan"
-        android:name="uk.ac.aston.cs3mdd.fitnessapp.exercises.fragments.ManageWorkoutPlanFragment"
-        android:label="@string/hello_workout_fragment"
-        tools:layout="@layout/fragment_manage_workout_plan"/>
+        android:name="uk.ac.aston.cs3mdd.fitnessapp.fragments.ManageWorkoutPlanFragment"
+        android:label="@string/workout_plan_manage_title"
+        tools:layout="@layout/fragment_manage_workout_plan">
+        <action
+            android:id="@+id/action_create_workout_plan_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/local_gyms"
-        android:name="uk.ac.aston.cs3mdd.fitnessapp.MapsFragment"
+        android:name="uk.ac.aston.cs3mdd.fitnessapp.fragments.MapsFragment"
         android:label="@string/gym_local"
         tools:layout="@layout/fragment_maps"/>
 </navigation>

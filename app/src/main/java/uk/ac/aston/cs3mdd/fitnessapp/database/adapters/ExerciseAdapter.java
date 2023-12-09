@@ -18,8 +18,8 @@ import java.util.List;
 
 import uk.ac.aston.cs3mdd.fitnessapp.R;
 import uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.DeleteExerciseDialogFragment;
-import uk.ac.aston.cs3mdd.fitnessapp.exercises.dialogs.EditExerciseDialogFragment;
+import uk.ac.aston.cs3mdd.fitnessapp.dialogs.DeleteExerciseDialogFragment;
+import uk.ac.aston.cs3mdd.fitnessapp.dialogs.EditExerciseDialogFragment;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder> {
     private List<Exercise> exercises;
