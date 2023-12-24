@@ -1,7 +1,7 @@
 package uk.ac.aston.cs3mdd.fitnessapp.adapters;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.ColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +12,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
-import uk.ac.aston.cs3mdd.fitnessapp.MainActivity;
 import uk.ac.aston.cs3mdd.fitnessapp.R;
 import uk.ac.aston.cs3mdd.fitnessapp.serializers.Exercise;
-import uk.ac.aston.cs3mdd.fitnessapp.listeners.MoreInfoButtonClickedListener;
+import uk.ac.aston.cs3mdd.fitnessapp.util.ColorFilterCreator;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder> {
 
@@ -41,14 +42,15 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     @Override
     public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
-        Exercise exercise = this.exercises.get(position);
-        holder.setExercise(exercise);
-        String displayText = holder.getExercise().getName() + " " + holder.getExercise().getTarget() + " "
-                + holder.getExercise().getBodyPart();
-        holder.exerciseTextView.setText(displayText);
-        holder.getButton().setOnClickListener(new MoreInfoButtonClickedListener(holder.getExercise()));
-        Log.i(MainActivity.TAG, exercise.getGifUrl());
-        Picasso.get().load(holder.exercise.getGifUrl()).into(holder.imageView);
+        Exercise exercise = exercises.get(position);
+        holder.exerciseNameView.setText(exercise.getName());
+        holder.bodyPartView.setText(exercise.getBodyPart());
+        ColorFilter colorFilter = ColorFilterCreator.createColorFilter(0.65f);
+        holder.imageView.setColorFilter(colorFilter);
+        Glide.with(holder.itemView)
+                .asGif()
+                .load(exercise.getGifUrl())
+                .into(holder.imageView);
     }
 
     @Override
@@ -63,7 +65,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     static class ExerciseViewHolder extends RecyclerView.ViewHolder{
         private Exercise exercise;
-        private TextView exerciseTextView;
+        private TextView exerciseNameView;
+
+        private TextView bodyPartView;
         private ExerciseAdapter exerciseAdapter;
 
         private ImageView imageView;
@@ -71,10 +75,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         private Button button;
         public ExerciseViewHolder(@NonNull View itemView, ExerciseAdapter adapter) {
             super(itemView);
-            this.exerciseTextView = itemView.findViewById(R.id.exercise);
+            this.exerciseNameView = itemView.findViewById(R.id.exercise_name_view);
             this.exerciseAdapter = adapter;
             this.button = itemView.findViewById(R.id.more_info_button);
             this.imageView = itemView.findViewById(R.id.exercise_image);
+            this.bodyPartView = itemView.findViewById(R.id.body_part_text_view);
         }
 
         public void setExercise(Exercise exercise){
@@ -89,8 +94,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             return button;
         }
 
-        public TextView getExerciseTextView() {
-            return exerciseTextView;
+        public TextView getExerciseNameView() {
+            return exerciseNameView;
         }
 
         public ImageView getImageView() {

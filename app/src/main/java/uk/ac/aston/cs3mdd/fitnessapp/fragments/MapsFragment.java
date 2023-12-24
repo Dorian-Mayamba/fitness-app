@@ -38,10 +38,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.clustering.ClusterManager;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import uk.ac.aston.cs3mdd.fitnessapp.MainActivity;
 import uk.ac.aston.cs3mdd.fitnessapp.R;
+import uk.ac.aston.cs3mdd.fitnessapp.clusteritems.LocationItem;
 import uk.ac.aston.cs3mdd.fitnessapp.databinding.FragmentMapsBinding;
 import uk.ac.aston.cs3mdd.fitnessapp.models.LocationViewModel;
 import uk.ac.aston.cs3mdd.fitnessapp.models.PlaceViewModel;
@@ -109,6 +112,8 @@ public class MapsFragment extends Fragment {
     private Retrofit retrofit;
 
     private PlaceViewModel placeViewModel;
+
+    private ClusterManager<LocationItem> clusterManager;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -311,6 +316,10 @@ public class MapsFragment extends Fragment {
                 android.Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
         });
+    }
+
+    private void setupCluster(){
+
     }
 
 

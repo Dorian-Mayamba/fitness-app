@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/slider_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/ic_background"
+            android:src="@drawable/ic_exercise"
+            android:clipToOutline="true"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/workout_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="exercise_name"
+            android:textSize="25dp"
+            android:layout_alignRight="@+id/slider_image_view"
+            android:layout_alignLeft="@+id/slider_image_view"
+            android:textColor="@color/white"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/num_rep_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginLeft="12dp"
+            android:layout_alignLeft="@+id/slider_image_view"
+            android:text="number of reps"
+            android:textSize="20dp"
+            android:layout_alignBottom="@+id/slider_image_view"
+            android:layout_alignTop="@+id/slider_image_view"
+            android:layout_marginBottom="20pt"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/num_set_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/workout_name"
+            android:layout_alignLeft="@+id/slider_image_view"
+            android:text="number of sets"
+            android:textColor="@color/white"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="40dp"
+            android:textSize="20dp"
+            android:layout_alignBottom="@+id/slider_image_view"
+            android:gravity="center"/>
+        />
+    </RelativeLayout>
+
+
+
+
+</FrameLayout>

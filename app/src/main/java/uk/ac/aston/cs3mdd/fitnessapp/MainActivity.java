@@ -2,11 +2,13 @@ package uk.ac.aston.cs3mdd.fitnessapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -29,6 +31,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -65,40 +68,14 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         BottomNavigationView navigationView = binding.bottomNavigation;
-        setSupportActionBar(binding.toolBar);
-        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-
+        //NavigationUI.setupActionBarWithNavController(this, navController,appBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView,navController);
         model = new ViewModelProvider(this).get(ExerciseViewModel.class);
         if (executor != null) {
             Log.i(MainActivity.TAG, "Successfully inject executor");
         }
         this.exercisesRepository = new ExercisesRepository(executor, handler);
         exercisesRepository.loadExercises(database, model);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.bottom_navigation, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.onNavDestinationSelected(item, navController)
-                || super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        return
-                NavigationUI.navigateUp(navController, appBarConfiguration)
-                        || super.onSupportNavigateUp();
     }
 
     @Override
@@ -157,4 +134,5 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     public void onEditCancel(DialogFragment fragment) {
         fragment.dismiss();
     }
+
 }

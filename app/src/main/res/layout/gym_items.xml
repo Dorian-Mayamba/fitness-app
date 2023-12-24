@@ -3,47 +3,65 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:weightSum="3"
-    android:padding="6dp">
-    <LinearLayout
+    >
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="24pt"
+        android:layout_marginBottom="15pt"
         >
+
+        <ImageView
+            android:id="@+id/exercise_image"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/ic_background"
+            android:clipToOutline="true"
+            android:scaleType="fitXY" />
+
         <TextView
-            android:id="@+id/exercise"
+            android:id="@+id/exercise_name_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:textSize="24sp"
+            android:text="exercise's name"
+            android:textColor="@color/white"
+            android:layout_alignLeft="@+id/exercise_image"
+            android:layout_alignRight="@+id/exercise_image"
+            android:textAlignment="center"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/body_part_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="Body part"
+            android:layout_alignLeft="@+id/exercise_image"
+            android:textColor="@color/white"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_below="@+id/exercise_name_view"
+            android:layout_alignBottom="@+id/exercise_image"
+            android:gravity="center_vertical"
             android:textStyle="bold"/>
 
 
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="130dp"
-            android:id="@+id/exercise_image"
-            android:layout_gravity="end"
-            android:scaleType="fitXY"/>
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:orientation="vertical"
-        >
-
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Instructions"
             android:textSize="24sp"
             android:id="@+id/more_info_button"
+            android:layout_alignRight="@+id/exercise_image"
+            android:layout_marginRight="16dp"
+            android:backgroundTint="@color/custom_primary"
+            android:layout_alignBottom="@+id/exercise_image"
+            android:layout_marginBottom="12pt"
             />
-    </LinearLayout>
+
+
+    </RelativeLayout>
 </FrameLayout>

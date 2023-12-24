@@ -10,7 +10,14 @@
         android:id="@+id/HomeFragment"
         android:name="uk.ac.aston.cs3mdd.fitnessapp.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_HomeFragment_to_GymFragment"
+            app:destination="@id/GymFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_create_workout_plan"
+            app:destination="@id/create_workout_plan" />
+    </fragment>
     <fragment
         android:id="@+id/FoodFragment"
         android:name="uk.ac.aston.cs3mdd.fitnessapp.fragments.FoodFragment"
