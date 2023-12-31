@@ -30,6 +30,11 @@ public interface ExercisesService {
     @GET("/exercises/bodyPart/{bodyPart}")
     Call<List<Exercise>> getExercisesFromBodyPart(@Path("bodyPart") String bodyPart);
 
+    @Headers({
+            "X-RapidAPI-Key: 3a903baa54mshcec096be2d5fb99p1f52acjsne7fff04997ad",
+            "X-RapidAPI-Host: exercisedb.p.rapidapi.com"
+    })
     @GET("/exercises/exercise/{id}")
-    Call<Exercise> getExerciseFromId(@Path("id") int exerciseId);
+    Call<Exercise> getExerciseFromId(@Path("id") String exerciseId);
+
 }

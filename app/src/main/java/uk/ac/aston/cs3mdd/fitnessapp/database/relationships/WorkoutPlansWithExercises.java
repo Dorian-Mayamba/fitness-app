@@ -1,6 +1,7 @@
 package uk.ac.aston.cs3mdd.fitnessapp.database.relationships;
 
 import androidx.room.Embedded;
+import androidx.room.Entity;
 import androidx.room.Relation;
 
 import java.util.List;
@@ -12,8 +13,8 @@ public class WorkoutPlansWithExercises {
     @Embedded
     private WorkoutPlan workoutPlan;
     @Relation(
-            parentColumn = "id",
-            entityColumn = "workoutPlanId"
+            parentColumn = "day",
+            entityColumn = "workout_day"
     )
     private List<Exercise> exercises;
 

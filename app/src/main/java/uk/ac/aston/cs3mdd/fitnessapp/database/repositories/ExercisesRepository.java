@@ -3,6 +3,8 @@ package uk.ac.aston.cs3mdd.fitnessapp.database.repositories;
 import android.os.Handler;
 import android.util.Log;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -11,23 +13,47 @@ import uk.ac.aston.cs3mdd.fitnessapp.database.FitnessDatabase;
 import uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise;
 import uk.ac.aston.cs3mdd.fitnessapp.database.entities.WorkoutPlan;
 import uk.ac.aston.cs3mdd.fitnessapp.database.callbacks.IExercisesQueryCallback;
+import uk.ac.aston.cs3mdd.fitnessapp.database.relationships.WorkoutPlansWithExercises;
 import uk.ac.aston.cs3mdd.fitnessapp.database.results.ExerciseQueryResult;
 import uk.ac.aston.cs3mdd.fitnessapp.generics.AbstractRepository;
 import uk.ac.aston.cs3mdd.fitnessapp.generics.IViewModel;
+import uk.ac.aston.cs3mdd.fitnessapp.providers.ServiceProvider;
+import uk.ac.aston.cs3mdd.fitnessapp.services.ExercisesService;
+import uk.ac.aston.cs3mdd.fitnessapp.util.DayUtil;
 
 public class ExercisesRepository extends AbstractRepository<Exercise> {
     public ExercisesRepository(Executor executor, Handler handler) {
         super(executor, handler);
     }
 
-    private void requestLoadExercises(FitnessDatabase database, IViewModel<Exercise> model, IExercisesQueryCallback callback){
+    private void requestLoadExercises(FitnessDatabase database, IViewModel<Exercise> model, IExercisesQueryCallback callback, String day) throws IOException {
         this.executor.execute(new Runnable() {
             @Override
             public void run() {
                 // background task
+
                 Log.i(MainActivity.TAG, "Load exercise request initialised");
                 try{
-                    List<Exercise> exercises = database.exerciseDao().getExercises();
+                    List<Exercise> exercises;
+                    WorkoutPlansWithExercises planWithExercises = database.workoutPlanWithExercisesDao().getWorkoutPlanWithExercises(day);
+                    if (planWithExercises == null){
+                        WorkoutPlan plan = new WorkoutPlan();
+                        plan.setDay(day);
+                        database.workoutPlanDao().createWorkoutPlan(plan);
+                        exercises = new ArrayList<>();
+                    }else{
+                        exercises = planWithExercises.getExercises();
+                    }
+                    ExercisesService service = ServiceProvider.getExerciseService();
+                    uk.ac.aston.cs3mdd.fitnessapp.serializers.Exercise exercise = null;
+                    if (exercises.size() > 0){
+                        for (Exercise e:exercises){
+                            exercise = service.getExerciseFromId(e.getExerciseId()).execute().body();
+                            if (exercise != null && !exercise.getGifUrl().equals(e.getExerciseImg())){
+                                e.setExerciseId(exercise.getGifUrl());
+                            }
+                        }
+                    }
                     callback.onSuccess(new ExerciseQueryResult.Success<List<Exercise>>(exercises));
                 }catch(Exception exception){
                     callback.onError(new ExerciseQueryResult.Error<String>(exception));
@@ -36,7 +62,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
         });
     }
 
-    public void loadExercises(FitnessDatabase database, IViewModel<Exercise> model){
+    public void loadExercises(FitnessDatabase database, IViewModel<Exercise> model, String day) throws IOException {
         requestLoadExercises(database, model, new IExercisesQueryCallback(){
 
             @Override
@@ -49,7 +75,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
             public void onError(ExerciseQueryResult.Error<String> error) {
                 Log.e(MainActivity.TAG, "Error: "+ error.getErrorMessage());
             }
-        });
+        }, day);
     }
 
     private void requestInsertExercise(FitnessDatabase database, IViewModel<Exercise> model, Exercise exercise, String workoutDay, IExercisesQueryCallback callback){
@@ -69,7 +95,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
                         exercise.setWorkoutPlanId(planId);
                     }
                     database.exerciseDao().createExercise(exercise);
-                    List<Exercise> exercises = database.exerciseDao().getExercises();
+                    List<Exercise> exercises = database.workoutPlanWithExercisesDao().getWorkoutPlanWithExercises(DayUtil.getCurrentDayDisplayName()).getExercises();
                     callback.onSuccess(new ExerciseQueryResult.Success<List<Exercise>>(exercises));
                 }catch(Exception exception){
                     callback.onError(new ExerciseQueryResult.Error<String>(exception));
@@ -98,7 +124,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
             public void run() {
                 try{
                     database.exerciseDao().deleteExercise(exercise);
-                    List<Exercise> exercises = database.exerciseDao().getExercises();
+                    List<Exercise> exercises = database.workoutPlanWithExercisesDao().getWorkoutPlanWithExercises(DayUtil.getCurrentDayDisplayName()).getExercises();
                     callback.onSuccess(new ExerciseQueryResult.Success<>(exercises));
                 }catch (Exception e){
                     callback.onError(new ExerciseQueryResult.Error<>(e));
@@ -141,7 +167,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
             public void run() {
                 try{
                     database.exerciseDao().updateExercise(exerciseToModify);
-                    List<Exercise> exercises = database.exerciseDao().getExercises();
+                    List<Exercise> exercises = database.workoutPlanWithExercisesDao().getWorkoutPlanWithExercises(DayUtil.getCurrentDayDisplayName()).getExercises();
                     callback.onSuccess(new ExerciseQueryResult.Success<List<Exercise>>(exercises));
                 }catch (Exception exception){
                     callback.onError(new ExerciseQueryResult.Error<String>(exception));

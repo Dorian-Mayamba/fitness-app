@@ -2,6 +2,7 @@ package uk.ac.aston.cs3mdd.fitnessapp.callbacks;
 
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,6 +23,12 @@ public class ExercisesCallback implements Callback<List<Exercise>> {
     public void onResponse(Call<List<Exercise>> call, Response<List<Exercise>> response) {
         if(response.isSuccessful()){
             exercisesViewModel.addExercises(response.body());
+        }else{
+            try {
+                Log.e(MainActivity.TAG, "Error: "+ response.errorBody().string());
+            } catch (IOException e) {
+                //Ignore
+            }
         }
     }
 

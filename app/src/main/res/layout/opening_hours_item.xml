@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/opening_hours_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/day_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monday"
+        android:textSize="4.5mm"
+        android:layout_marginLeft="5mm"
+        android:layout_marginTop="4mm"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textSize="4.5mm"
+        android:text="9.00am - 5pm"
+        android:layout_marginTop="4mm"
+        android:layout_marginRight="5mm"/>
+
+
+
+</RelativeLayout>

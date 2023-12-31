@@ -20,9 +20,9 @@ import uk.ac.aston.cs3mdd.fitnessapp.serializers.Exercise;
 import uk.ac.aston.cs3mdd.fitnessapp.listeners.ExerciseItemClickListener;
 
 public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapter.ExerciseViewHolder> {
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
 
-    List<Exercise> exercises;
+    private List<Exercise> exercises;
 
     private ExerciseItemClickListener clickListener;
     public EditExerciseAdapter(Context context, List<Exercise> exercises, ExerciseItemClickListener listener){

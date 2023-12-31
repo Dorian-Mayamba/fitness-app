@@ -61,8 +61,8 @@ public class WorkoutImageAdapter extends SliderViewAdapter<WorkoutImageAdapter.W
             super(itemView);
             this.sliderImageView = itemView.findViewById(R.id.slider_image_view);
             this.exerciseNameView = itemView.findViewById(R.id.workout_name);
-            this.numberOfSetsView = itemView.findViewById(R.id.num_set_text);
-            this.numberOfRepsView = itemView.findViewById(R.id.num_rep_text);
+            this.numberOfSetsView = itemView.findViewById(R.id.exercise_num_set_text);
+            this.numberOfRepsView = itemView.findViewById(R.id.exercise_num_rep_text);
         }
 
     }

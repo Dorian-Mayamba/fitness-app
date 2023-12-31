@@ -1,67 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="90dp"
+    >
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <LinearLayout
+
+        <ImageView
+            android:id="@+id/exercise_img"
             android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="15dp"
+            android:background="@drawable/ic_background"
+            android:backgroundTint="@color/success"
+            android:clipToOutline="true"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/exercise_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/text_container"
+            android:layout_alignLeft="@+id/exercise_img"
+            android:layout_alignRight="@+id/exercise_img"
+            android:text="exercise's name"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/exercise_name"
-                android:textSize="24sp"
-                android:layout_weight="1.5"
-                />
+            android:layout_below="@+id/exercise_name"
+            android:layout_marginRight="10dp"
+            android:layout_alignRight="@+id/exercise_img">
 
             <ImageView
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:id="@+id/exercise_img"
-                android:contentDescription="Exercise image"
-                android:layout_gravity="right"
-                android:layout_weight="0.5"
-                android:scaleType="fitXY"/>
+                android:id="@+id/update_exercise_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/pencil"/>
+            <ImageView
+                android:id="@+id/delete_exercise_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="6dp"
+                android:src="@drawable/trash"/>
+
 
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:layout_below="@+id/text_container"
+            android:layout_below="@+id/exercise_name"
+            android:layout_alignLeft="@+id/exercise_img"
+            android:layout_marginLeft="12dp"
+            android:padding="15dp"
+            android:orientation="vertical">
 
-            android:orientation="horizontal">
-
-            <Button
+            <TextView
+                android:id="@+id/body_part_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_button"
-                android:text="Swap Exercise"
-                android:textSize="16.5sp"
-                />
-
-            <Button
+                android:text="Body part"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginBottom="18dp"
+                android:textSize="24sp" />
+            <TextView
+                android:id="@+id/exercise_num_set_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/delete_button"
-                android:text="Delete"
-                android:textSize="16.5sp"
-                />
-
-            <Button
+                android:text="number of sets"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginBottom="18dp"
+                android:textSize="24sp" />
+            <TextView
+                android:id="@+id/exercise_num_rep_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/instruction_button"
-                android:text="instructions"
-                android:textSize="16.5sp"
-                />
+                android:text="number of reps"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="24sp" />
+
+            />
 
         </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instructions"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/more_info_button"
+            android:layout_alignRight="@+id/exercise_img"
+            android:layout_marginRight="16dp"
+            android:backgroundTint="@color/custom_primary"
+            android:layout_alignBottom="@+id/exercise_img"
+            android:layout_marginBottom="5.5pt"
+            />
     </RelativeLayout>
 
 </FrameLayout>

@@ -25,7 +25,7 @@ public class ExerciseRepository {
         return this.exercisesService.getExercisesFromBodyPart(bodyPart);
     }
 
-    public Call<Exercise> getExerciseById(int exerciseId){
+    public Call<Exercise> getExerciseById(String exerciseId){
         return this.exercisesService.getExerciseFromId(exerciseId);
     }
 

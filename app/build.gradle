@@ -46,6 +46,7 @@ android {
 dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.libraries.places:places:3.3.0'
     def nav_version = "2.7.5"
     def room_version = "2.6.0"
     def hilt_version = "2.44"
@@ -72,6 +73,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.google.maps.android:android-maps-utils:3.8.0'
     implementation 'com.google.maps.android:maps-utils-ktx:5.0.0'
+    implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
 }
 
 kapt{

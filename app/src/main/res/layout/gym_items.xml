@@ -3,22 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="90dp"
     >
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="15pt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         >
 
         <ImageView
             android:id="@+id/exercise_image"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="200dp"
             android:layout_centerInParent="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/ic_background"
+            android:backgroundTint="@color/success"
             android:clipToOutline="true"
             android:scaleType="fitXY" />
 
@@ -26,11 +26,11 @@
             android:id="@+id/exercise_name_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5pt"
             android:textSize="24sp"
             android:text="exercise's name"
             android:textColor="@color/white"
-            android:layout_alignLeft="@+id/exercise_image"
-            android:layout_alignRight="@+id/exercise_image"
+            android:layout_centerHorizontal="true"
             android:textAlignment="center"
             android:textStyle="bold"/>
         <TextView
@@ -41,7 +41,7 @@
             android:text="Body part"
             android:layout_alignLeft="@+id/exercise_image"
             android:textColor="@color/white"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginLeft="12dp"
             android:layout_below="@+id/exercise_name_view"
             android:layout_alignBottom="@+id/exercise_image"
@@ -49,17 +49,32 @@
             android:textStyle="bold"/>
 
 
+        <TextView
+            android:id="@+id/add_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/exercise_name_view"
+            android:layout_alignRight="@+id/exercise_image"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center_vertical"
+            android:text="+"
+            android:textColor="@color/white"
+            android:textSize="24pt"
+            android:textStyle="bold" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Instructions"
-            android:textSize="24sp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             android:id="@+id/more_info_button"
             android:layout_alignRight="@+id/exercise_image"
             android:layout_marginRight="16dp"
             android:backgroundTint="@color/custom_primary"
             android:layout_alignBottom="@+id/exercise_image"
-            android:layout_marginBottom="12pt"
+            android:layout_marginBottom="5.5pt"
             />
 
 

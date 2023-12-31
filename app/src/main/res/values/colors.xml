@@ -5,4 +5,6 @@
     <color name="warning">#ffcc00</color>
     <color name="success">#99cc33</color>
     <color name="custom_primary">#11b8dd</color>
+    <color name="primary">#153FD6</color>
+    <color name="danger">#dc3545</color>
 </resources>

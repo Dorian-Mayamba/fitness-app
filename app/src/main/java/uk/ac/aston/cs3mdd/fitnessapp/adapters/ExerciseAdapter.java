@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,7 +20,11 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import uk.ac.aston.cs3mdd.fitnessapp.FitnessApplication;
+import uk.ac.aston.cs3mdd.fitnessapp.MainActivity;
 import uk.ac.aston.cs3mdd.fitnessapp.R;
+import uk.ac.aston.cs3mdd.fitnessapp.dialogs.AddExerciseDialogFragment;
+import uk.ac.aston.cs3mdd.fitnessapp.fragments.GymFragmentDirections;
 import uk.ac.aston.cs3mdd.fitnessapp.serializers.Exercise;
 import uk.ac.aston.cs3mdd.fitnessapp.util.ColorFilterCreator;
 
@@ -28,9 +34,12 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     private final LayoutInflater mInflater;
 
+    private MainActivity activity;
+
     public ExerciseAdapter(@NonNull Context context, List<Exercise> exercises) {
         mInflater = LayoutInflater.from(context);
         this.exercises = exercises;
+        activity = (MainActivity) context;
     }
 
     @NonNull
@@ -45,12 +54,30 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         Exercise exercise = exercises.get(position);
         holder.exerciseNameView.setText(exercise.getName());
         holder.bodyPartView.setText(exercise.getBodyPart());
+
+        holder.addSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GymFragmentDirections.ActionGymFragmentToAddExerciseFragment action =
+                        GymFragmentDirections.actionGymFragmentToAddExerciseFragment(exercise);
+                Navigation.findNavController(v)
+                        .navigate(action);
+            }
+        });
         ColorFilter colorFilter = ColorFilterCreator.createColorFilter(0.65f);
         holder.imageView.setColorFilter(colorFilter);
         Glide.with(holder.itemView)
                 .asGif()
                 .load(exercise.getGifUrl())
                 .into(holder.imageView);
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GymFragmentDirections.ActionGymFragmentToExerciseDescriptionFragment action
+                        = GymFragmentDirections.actionGymFragmentToExerciseDescriptionFragment(exercise);
+                Navigation.findNavController(v).navigate(action);
+            }
+        });
     }
 
     @Override
@@ -72,6 +99,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
         private ImageView imageView;
 
+        private TextView addSign;
         private Button button;
         public ExerciseViewHolder(@NonNull View itemView, ExerciseAdapter adapter) {
             super(itemView);
@@ -80,6 +108,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             this.button = itemView.findViewById(R.id.more_info_button);
             this.imageView = itemView.findViewById(R.id.exercise_image);
             this.bodyPartView = itemView.findViewById(R.id.body_part_text_view);
+            this.addSign = itemView.findViewById(R.id.add_sign);
         }
 
         public void setExercise(Exercise exercise){

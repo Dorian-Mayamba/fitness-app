@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -34,26 +36,28 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.maps.android.clustering.ClusterManager;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import java.util.ArrayList;
+import java.util.List;
+
 import uk.ac.aston.cs3mdd.fitnessapp.MainActivity;
 import uk.ac.aston.cs3mdd.fitnessapp.R;
 import uk.ac.aston.cs3mdd.fitnessapp.clusteritems.LocationItem;
 import uk.ac.aston.cs3mdd.fitnessapp.databinding.FragmentMapsBinding;
 import uk.ac.aston.cs3mdd.fitnessapp.models.LocationViewModel;
 import uk.ac.aston.cs3mdd.fitnessapp.models.PlaceViewModel;
+import uk.ac.aston.cs3mdd.fitnessapp.renderers.FitnessClusterRenderer;
 import uk.ac.aston.cs3mdd.fitnessapp.repositories.PlacesRepository;
 import uk.ac.aston.cs3mdd.fitnessapp.serializers.Place;
 import uk.ac.aston.cs3mdd.fitnessapp.services.PlacesServices;
+import uk.ac.aston.cs3mdd.fitnessapp.providers.ServiceProvider;
 
-public class MapsFragment extends Fragment {
-
+public class MapsFragment extends Fragment implements
+         OnMapReadyCallback, ClusterManager.OnClusterItemClickListener<LocationItem> {
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -64,9 +68,7 @@ public class MapsFragment extends Fragment {
 
     final String REQUEST_LOCATION_UPDATE_KEY = "isRequesting";
 
-    final String PLACE_KEYWORD = "puregym";
-
-    final int PLACE_RADIUS = 1230;
+    final int PLACE_RADIUS = 1500;
 
     final String PLACE_TYPE = "gym";
 
@@ -75,44 +77,15 @@ public class MapsFragment extends Fragment {
 
     private Location currentUserLocation;
     private PlacesServices services;
-
-    private OnMapReadyCallback callback =
-            new OnMapReadyCallback() {
-
-                /**
-                 * Manipulates the map once available.
-                 * This callback is triggered when the map is ready to be used.
-                 * This is where we can add markers or lines, add listeners or move the camera.
-                 * In this case, we just add a marker near Sydney, Australia.
-                 * If Google Play services is not installed on the device, the user will be prompted to
-                 * install it inside the SupportMapFragment. This method will only be triggered once the
-                 * user has installed Google Play services and returned to the app.
-                 */
-                @Override
-                public void onMapReady(GoogleMap googleMap) {
-                    map = googleMap;
-                    LatLng astonUniversity = new LatLng(52.48679922085286, -1.8878185869387778);
-                    placeViewModel.requestPlaces(new PlacesRepository(services), PLACE_KEYWORD, astonUniversity.latitude + "," + astonUniversity.longitude,
-                            PLACE_RADIUS,PLACE_TYPE,API_KEY);
-                    map.addMarker(new MarkerOptions().
-                            position(astonUniversity).title("Aston University"));
-                    currentUserLocationCoordinates = new LatLng(52.486944165236686, -1.9495126024884437);
-                    map.addMarker(new MarkerOptions().position(currentUserLocationCoordinates).title("You Are here"));
-                    map.moveCamera(CameraUpdateFactory.newLatLng(astonUniversity));
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentUserLocationCoordinates, 10));
-                }
-            };
-
     private LocationViewModel locationViewModel;
 
     private Boolean requestingLocationUpdates;
 
     private GoogleMap map;
 
-    private Retrofit retrofit;
-
+    private final List<LocationItem> locationItems = new ArrayList<>();
     private PlaceViewModel placeViewModel;
-
+    private PlacesRepository placesRepository;
     private ClusterManager<LocationItem> clusterManager;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,10 +100,14 @@ public class MapsFragment extends Fragment {
                 if (locationResult != null) {
                     for (Location location :
                             locationResult.getLocations()) {
-                        currentUserLocation = location;
-                        placeViewModel.requestPlaces(new PlacesRepository(services), PLACE_KEYWORD, currentUserLocation.getLatitude() + "," + currentUserLocation.getLongitude(),
-                                PLACE_RADIUS,PLACE_TYPE,API_KEY);
-                        locationViewModel.setCurrentLocation(currentUserLocation);
+                        if (currentUserLocation == null){
+                            currentUserLocation = location;
+                            locationViewModel.setCurrentLocation(currentUserLocation);
+                        }else if(currentUserLocation != null && currentUserLocation.getLatitude() != location.getLatitude() && currentUserLocation.getLongitude()
+                        != location.getLongitude()){
+                            currentUserLocation = location;
+                            locationViewModel.setCurrentLocation(currentUserLocation);
+                        }
                     }
                 }
             }
@@ -147,6 +124,8 @@ public class MapsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentMapsBinding.inflate(inflater, container, false);
         placeViewModel = new ViewModelProvider(requireActivity()).get(PlaceViewModel.class);
+        services = ServiceProvider.getPlacesServices();
+        placesRepository = new PlacesRepository(services);
         API_KEY = getString(R.string.google_maps_api_key);
         return binding.getRoot();
     }
@@ -160,26 +139,21 @@ public class MapsFragment extends Fragment {
                     if (location != null) {
                         //Update the UI
                         currentUserLocationCoordinates = new LatLng(location.getLatitude(),location.getLongitude());
+                        placeViewModel.requestPlaces(placesRepository, location.getLatitude() + "," + location.getLongitude(),
+                                PLACE_RADIUS,PLACE_TYPE,API_KEY);
 
                         if(map!=null){
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentUserLocationCoordinates, 10));
                         }
                     }
                 });
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://maps.googleapis.com/maps/api/place/nearbysearch/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        services = retrofit.create(PlacesServices.class);
         placeViewModel.getAllPlaces().observe(getViewLifecycleOwner(), places -> {
-            if (places != null){
+            if (places != null && places.size() > 0){
                 for (Place place:places){
                     LatLng latLng = new LatLng(place.getGeometry().getLocation().getLat(),
                             place.getGeometry().getLocation().getLng());
                     if (map!=null){
-                        map.addMarker(new MarkerOptions().
-                                title(place.getName())
-                                .position(latLng));
+                        addClusterItem(map, latLng, place.getName(), "Snippet for "+place.getName());
                     }
                 }
             }
@@ -291,14 +265,14 @@ public class MapsFragment extends Fragment {
                         SupportMapFragment mapFragment =
                                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
                         if (mapFragment != null) {
-                            mapFragment.getMapAsync(callback);
+                            mapFragment.getMapAsync(this);
                         }
                     } else if (fineLocationGranted != null && coarseLocationGranted != null) {
                         // Precise location request
                         SupportMapFragment mapFragment =
                                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
                         if (mapFragment != null) {
-                            mapFragment.getMapAsync(callback);
+                            mapFragment.getMapAsync(this);
                         }
                     } else {
                         // Can't do location request
@@ -318,9 +292,50 @@ public class MapsFragment extends Fragment {
         });
     }
 
-    private void setupCluster(){
+    private void setupClusterManager(Context context, GoogleMap map){
+        clusterManager = new ClusterManager<LocationItem>(context,map);
+        clusterManager.setOnClusterItemClickListener(this);
+        clusterManager.setRenderer(new FitnessClusterRenderer(getContext(), map, clusterManager));
+        map.setOnCameraIdleListener(clusterManager);
+        map.setOnMarkerClickListener(clusterManager);
 
     }
+    private void addClusterItem(GoogleMap map, LatLng position, String title, String snippet){
+        LocationItem item = new LocationItem(position,title,snippet);
+        clusterManager.addItem(item);
+        locationItems.add(item);
+    }
 
+    private Place findPlaceByPosition(double lat, double lng){
+        Place placeToFind = null;
+        for (Place place:placeViewModel.getAllPlaces().getValue()){
+            if (place.getGeometry().getLocation().isValidLocation(lat,lng)){
+                placeToFind = place;
+                break;
+            }
+        }
+        return placeToFind;
+    }
 
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        map = googleMap;
+        map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        setupClusterManager(getContext(),map);
+        LatLng astonUniversity = new LatLng(52.48679922085286, -1.8878185869387778);
+        currentUserLocationCoordinates = new LatLng(52.486944165236686, -1.9495126024884437);
+        addClusterItem(map,currentUserLocationCoordinates, "You are here", "User snippet");
+        addClusterItem(map, astonUniversity, "Aston uni", "Aston Snippet");
+        map.moveCamera(CameraUpdateFactory.newLatLng(astonUniversity));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentUserLocationCoordinates, 10));
+    }
+
+    @Override
+    public boolean onClusterItemClick(LocationItem item) {
+        Place place = findPlaceByPosition(item.getPosition().latitude, item.getPosition().longitude);
+        if (place != null){
+            Toast.makeText(getContext(), "Found clicked place "+ place.getName(), Toast.LENGTH_LONG).show();
+        }
+        return false;
+    }
 }

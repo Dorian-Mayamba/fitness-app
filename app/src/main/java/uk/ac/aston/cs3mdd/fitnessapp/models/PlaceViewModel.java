@@ -24,8 +24,8 @@ public class PlaceViewModel extends ViewModel {
         allPlaces = new MutableLiveData<>(new ArrayList<>());
     }
 
-    public void requestPlaces(PlacesRepository repository, String keyWord, String location, int radius, String type, String key){
-        Call<PlaceList> placeListCall = repository.getAllPlaces(keyWord, location,radius,type,key);
+    public void requestPlaces(PlacesRepository repository, String location, int radius, String type, String key) {
+        Call<PlaceList> placeListCall = repository.getAllPlaces(location, radius, type, key);
         placeListCall.enqueue(new PlaceListCallBack(this));
     }
 
@@ -34,10 +34,11 @@ public class PlaceViewModel extends ViewModel {
     }
 
     public void addAllPlaces(PlaceList places){
-        if (places.getResults().size() > 0){
-            Log.i(MainActivity.TAG, "Adding places to the list");
-            allPlaces.getValue().addAll(places.getResults());
-            allPlaces.setValue(allPlaces.getValue());
+        if (allPlaces.getValue().size() > 0){
+            Log.i(MainActivity.TAG, "found oloder places, clearing the list");
+            allPlaces.getValue().clear();
         }
+        allPlaces.getValue().addAll(places.getResults());
+        allPlaces.setValue(allPlaces.getValue());
     }
 }
