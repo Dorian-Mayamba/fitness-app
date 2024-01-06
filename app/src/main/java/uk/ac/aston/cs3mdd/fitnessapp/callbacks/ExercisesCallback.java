@@ -34,6 +34,6 @@ public class ExercisesCallback implements Callback<List<Exercise>> {
 
     @Override
     public void onFailure(Call<List<Exercise>> call, Throwable t) {
-        Log.i(MainActivity.TAG, "Error: " + t.getMessage());
+        Log.i(MainActivity.TAG + "Exercise Callback", "Error: " + t.getMessage());
     }
 }

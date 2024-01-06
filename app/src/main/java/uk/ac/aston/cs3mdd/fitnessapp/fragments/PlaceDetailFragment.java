@@ -126,6 +126,9 @@ public class PlaceDetailFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                placeDetail = null;
+                placeDetailPhotosViewModel.clearPhotos();
+                placePhotoAdapter.submitList(placeDetailPhotosViewModel.getAllPlacePhotos().getValue());
                 NavHostFragment.findNavController(PlaceDetailFragment.this)
                         .navigate(R.id.action_place_detail_to_local_gyms);
             }
@@ -162,11 +165,5 @@ public class PlaceDetailFragment extends Fragment {
                 placePhotoAdapter.submitList(placesPhotos);
             }
         });
-    }
-
-    @Override
-    public void onDestroyView() {
-        placeDetailPhotosViewModel.clearPhotos();
-        super.onDestroyView();
     }
 }

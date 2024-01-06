@@ -8,6 +8,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
@@ -35,6 +36,14 @@ public class FitnessClusterRenderer extends DefaultClusterRenderer<LocationItem>
         }else {
             super.onBeforeClusterItemRendered(item,markerOptions);
         }
+        markerOptions.title(item.getTitle());
+        markerOptions.snippet(item.getSnippet());
+    }
+
+    @Override
+    protected void onClusterItemRendered(@NonNull LocationItem clusterItem, @NonNull Marker marker) {
+        super.onClusterItemRendered(clusterItem, marker);
+        marker.showInfoWindow();
     }
 
     private boolean isAstonMarker(double latitude, double longitude){
