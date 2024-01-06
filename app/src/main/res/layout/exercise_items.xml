@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <ImageView
             android:id="@+id/exercise_img"
@@ -24,10 +25,10 @@
             android:id="@+id/exercise_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/exercise_img"
-            android:layout_alignRight="@+id/exercise_img"
             android:text="exercise's name"
-            android:textAlignment="center"
+            android:layout_alignStart="@+id/exercise_img"
+            android:layout_alignEnd="@+id/exercise_img"
+            android:layout_marginHorizontal="40dp"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />

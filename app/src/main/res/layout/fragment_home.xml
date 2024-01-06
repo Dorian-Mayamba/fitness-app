@@ -72,15 +72,6 @@
                 android:textColor="@color/white"
                 android:textSize="10pt" />
 
-            <ImageButton
-                android:id="@+id/view_exercises_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignEnd="@+id/image_exercise"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/icons8_fl_che_50" />
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -100,15 +91,6 @@
                 android:clipToOutline="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/full_body_routine_660x330" />
-
-            <ImageButton
-                android:id="@+id/view_workout_plan_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignEnd="@+id/image_workout_plan"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/icons8_fl_che_50" />
 
             <TextView
                 android:layout_width="wrap_content"

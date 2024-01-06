@@ -72,6 +72,15 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
                         .navigate(action);
             }
         });
+        holder.instructionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ManageWorkoutPlanFragmentDirections.ActionCreateWorkoutPlanToInstructionFragment action =
+                        ManageWorkoutPlanFragmentDirections.actionCreateWorkoutPlanToInstructionFragment(exercise);
+                Navigation.findNavController(v)
+                        .navigate(action);
+            }
+        });
     }
 
     @Override

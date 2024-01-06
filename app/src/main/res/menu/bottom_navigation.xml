@@ -14,13 +14,13 @@
         android:enabled="true"
         />
     <item
-        android:id="@+id/create_workout_plan"
+        android:id="@+id/ManageMyPlansFragment"
         android:icon="@drawable/ic_workout_plan"
         android:title="@string/workout_plan_manage_title"
         android:enabled="true"
         />
     <item
-        android:id="@+id/local_gyms"
+        android:id="@+id/LocalGymFragment"
         android:title="@string/gym_local"
         android:enabled="true"
         android:icon="@drawable/ic_location"/>

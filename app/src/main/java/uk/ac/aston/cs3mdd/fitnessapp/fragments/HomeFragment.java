@@ -35,16 +35,9 @@ import uk.ac.aston.cs3mdd.fitnessapp.util.ColorFilterCreator;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-
     private FragmentHomeBinding binding;
-
     private ImageView exerciseImage;
-
     private ImageView workoutPlanImage;
-
-    private ImageButton viewExerciseButton;
-
-    private ImageView viewWorkoutPlanButton;
     private SliderView sliderView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,20 +57,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         exerciseImage = view.findViewById(R.id.image_exercise);
         workoutPlanImage = view.findViewById(R.id.image_workout_plan);
-        viewWorkoutPlanButton = view.findViewById(R.id.view_workout_plan_btn);
-        viewExerciseButton = view.findViewById(R.id.view_exercises_btn);
-        viewExerciseButton.setOnClickListener(homeView->{
-            if(homeView != null){
-                NavHostFragment.findNavController(HomeFragment.this)
-                        .navigate(R.id.action_HomeFragment_to_GymFragment);
-            }
-        });
-        viewWorkoutPlanButton.setOnClickListener(homeView->{
-            if (homeView!=null){
-                NavHostFragment.findNavController(HomeFragment.this)
-                        .navigate(R.id.action_HomeFragment_to_create_workout_plan);
-            }
-        });
         ColorFilter colorFilter = ColorFilterCreator.createColorFilter(0.75f);
         sliderView = view.findViewById(R.id.slider_view);
         List<WorkoutImageDetail> details = new ArrayList<>();

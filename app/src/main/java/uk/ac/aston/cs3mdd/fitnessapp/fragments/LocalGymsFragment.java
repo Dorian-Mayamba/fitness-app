@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.Manifest;
 import android.content.Context;
@@ -56,7 +58,7 @@ import uk.ac.aston.cs3mdd.fitnessapp.serializers.Place;
 import uk.ac.aston.cs3mdd.fitnessapp.services.PlacesServices;
 import uk.ac.aston.cs3mdd.fitnessapp.providers.ServiceProvider;
 
-public class MapsFragment extends Fragment implements
+public class LocalGymsFragment extends Fragment implements
          OnMapReadyCallback, ClusterManager.OnClusterItemClickListener<LocationItem> {
 
     private FusedLocationProviderClient fusedLocationClient;
@@ -334,7 +336,11 @@ public class MapsFragment extends Fragment implements
     public boolean onClusterItemClick(LocationItem item) {
         Place place = findPlaceByPosition(item.getPosition().latitude, item.getPosition().longitude);
         if (place != null){
-            Toast.makeText(getContext(), "Found clicked place "+ place.getName(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "Found clicked place "+ place.getName(), Toast.LENGTH_LONG).show();
+            LocalGymsFragmentDirections.ActionLocalGymsToPlaceDetail action =
+                    LocalGymsFragmentDirections.actionLocalGymsToPlaceDetail(place);
+            NavHostFragment.findNavController(this)
+                    .navigate(action);
         }
         return false;
     }

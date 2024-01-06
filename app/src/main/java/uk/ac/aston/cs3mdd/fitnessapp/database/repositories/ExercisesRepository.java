@@ -31,7 +31,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
             @Override
             public void run() {
                 // background task
-
+                //android.os.Debug.waitForDebugger();
                 Log.i(MainActivity.TAG, "Load exercise request initialised");
                 try{
                     List<Exercise> exercises;
@@ -43,6 +43,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
                         exercises = new ArrayList<>();
                     }else{
                         exercises = planWithExercises.getExercises();
+
                     }
                     ExercisesService service = ServiceProvider.getExerciseService();
                     uk.ac.aston.cs3mdd.fitnessapp.serializers.Exercise exercise = null;
@@ -73,7 +74,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
 
             @Override
             public void onError(ExerciseQueryResult.Error<String> error) {
-                Log.e(MainActivity.TAG, "Error: "+ error.getErrorMessage());
+                Log.e(MainActivity.TAG + " LoadExercises error", "Error: "+ error.getErrorMessage());
             }
         }, day);
     }
@@ -83,6 +84,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
             @Override
             public void run() {
                 //Background task
+                String exerciseDay = exercise.getWorkoutDay();
                 try{
                     WorkoutPlan plan = database.workoutPlanDao().getWorkoutPlanByDay(workoutDay);
                     if(plan != null){
@@ -95,7 +97,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
                         exercise.setWorkoutPlanId(planId);
                     }
                     database.exerciseDao().createExercise(exercise);
-                    List<Exercise> exercises = database.workoutPlanWithExercisesDao().getWorkoutPlanWithExercises(DayUtil.getCurrentDayDisplayName()).getExercises();
+                    List<Exercise> exercises = database.workoutPlanWithExercisesDao().getWorkoutPlanWithExercises(exerciseDay).getExercises();
                     callback.onSuccess(new ExerciseQueryResult.Success<List<Exercise>>(exercises));
                 }catch(Exception exception){
                     callback.onError(new ExerciseQueryResult.Error<String>(exception));
@@ -113,7 +115,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
 
             @Override
             public void onError(ExerciseQueryResult.Error<String> error) {
-                Log.e(MainActivity.TAG, "Error: "+ error.getErrorMessage());
+                Log.e(MainActivity.TAG + " Insert exercise error", "Error: "+ error.getErrorMessage());
             }
         });
     }
@@ -123,8 +125,9 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
             @Override
             public void run() {
                 try{
+                    String exerciseDay = exercise.getWorkoutDay();
                     database.exerciseDao().deleteExercise(exercise);
-                    List<Exercise> exercises = database.workoutPlanWithExercisesDao().getWorkoutPlanWithExercises(DayUtil.getCurrentDayDisplayName()).getExercises();
+                    List<Exercise> exercises = database.workoutPlanWithExercisesDao().getWorkoutPlanWithExercises(exerciseDay).getExercises();
                     callback.onSuccess(new ExerciseQueryResult.Success<>(exercises));
                 }catch (Exception e){
                     callback.onError(new ExerciseQueryResult.Error<>(e));
@@ -142,7 +145,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
 
             @Override
             public void onError(ExerciseQueryResult.Error<String> error) {
-                Log.e(MainActivity.TAG, "Could not delete exercise: "+exercise.getExerciseName() + " "+ error.getErrorMessage());
+                Log.e(MainActivity.TAG + " Delete exercise error", "Could not delete exercise: "+exercise.getExerciseName() + " "+ error.getErrorMessage());
             }
         });
     }
@@ -156,7 +159,7 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
 
             @Override
             public void onError(ExerciseQueryResult.Error<String> error) {
-                Log.i(MainActivity.TAG, "Error: "+ error.getErrorMessage());
+                Log.i(MainActivity.TAG + " UpdateExercise error", "Error: "+ error.getErrorMessage());
             }
         });
     }
@@ -166,8 +169,9 @@ public class ExercisesRepository extends AbstractRepository<Exercise> {
             @Override
             public void run() {
                 try{
+                    String exerciseDay = exerciseToModify.getWorkoutDay();
                     database.exerciseDao().updateExercise(exerciseToModify);
-                    List<Exercise> exercises = database.workoutPlanWithExercisesDao().getWorkoutPlanWithExercises(DayUtil.getCurrentDayDisplayName()).getExercises();
+                    List<Exercise> exercises = database.workoutPlanWithExercisesDao().getWorkoutPlanWithExercises(exerciseDay).getExercises();
                     callback.onSuccess(new ExerciseQueryResult.Success<List<Exercise>>(exercises));
                 }catch (Exception exception){
                     callback.onError(new ExerciseQueryResult.Error<String>(exception));

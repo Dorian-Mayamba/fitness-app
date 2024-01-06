@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragments.ManageWorkoutPlanFragment">
 
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/workout_plan_title"
+            android:layout_below="@+id/workout_search_view"
             android:textSize="10pt"
             android:text="Workout day"/>
 
@@ -35,7 +35,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_left_arrow"
-            android:layout_below="@+id/workout_plan_title"
+            android:layout_below="@+id/workout_search_view"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@+id/workout_plan_day"/>
             />
@@ -45,16 +45,19 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_right_arrow"
-            android:layout_below="@+id/workout_plan_title"
+            android:layout_below="@+id/workout_search_view"
             android:layout_toRightOf="@id/workout_plan_day"
             android:layout_marginLeft="15dp"
             />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/workout_search_view"
+            android:layout_below="@+id/workout_plan_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/exercise_name_search"
+            android:background="@color/beige"
+            app:defaultQueryHint="@string/exercise_name_search"
+            app:iconifiedByDefault="false"
             />
 
 

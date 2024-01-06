@@ -54,12 +54,14 @@
             android:hint="@string/day_hint"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
+            app:startIconDrawable="@drawable/ic_calendar_select"
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu">
 
             <AutoCompleteTextView
                 android:id="@+id/workout_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
                 android:inputType="text"
                 />
 

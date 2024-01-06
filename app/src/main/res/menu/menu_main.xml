@@ -18,7 +18,7 @@
         android:title="@string/gyms"
         app:showAsAction="never" />
     <item
-        android:id="@+id/create_workout_plan"
+        android:id="@+id/ManageMyPlansFragment"
         android:orderInCategory="103"
         android:title="@string/workout_plan_manage_title"
         app:showAsAction="never"/>

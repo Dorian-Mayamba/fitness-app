@@ -15,6 +15,15 @@ android {
     namespace 'uk.ac.aston.cs3mdd.fitnessapp'
     compileSdk 34
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
+    }
+
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
     defaultConfig {
         applicationId "uk.ac.aston.cs3mdd.fitnessapp"
         minSdk 24
@@ -26,7 +35,7 @@ android {
     }
 
     buildTypes {
-        debug{
+        debug {
             buildConfigField("String", "MAPS_API_KEY", apiKeyProperty['MAPS_API_KEY'])
         }
 
@@ -39,6 +48,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
     buildFeatures {
         viewBinding true
     }
@@ -68,15 +78,26 @@ dependencies {
     implementation group: 'com.squareup.picasso', name: 'picasso', version: '2.71828'
     implementation 'com.github.smarteist:Android-Image-Slider:1.4.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    testImplementation "org.mockito:mockito-core:5.8.0"
     testImplementation 'junit:junit:4.13.2'
+    testImplementation "org.robolectric:robolectric:4.11.1"
+    androidTestImplementation "androidx.test:runner:1.5.2"
+    androidTestImplementation "androidx.test:rules:1.5.0"
+    testImplementation "androidx.test:core:1.5.0"
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // Optional -- UI testing with Espresso
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    // Optional -- UI testing with UI Automator
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
+    // Optional -- UI testing with Compose
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.5.4"
     implementation 'com.google.maps.android:android-maps-utils:3.8.0'
     implementation 'com.google.maps.android:maps-utils-ktx:5.0.0'
     implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
 }
 
-kapt{
+kapt {
     correctErrorTypes true
 }
 

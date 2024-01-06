@@ -24,11 +24,6 @@ public class PlaceDetailViewModel extends ViewModel {
         currentPlaceDetail = new MutableLiveData<PlaceDetail>();
     }
 
-    public void requestPhotos(PlacesRepository repository, String photoReference, int maxWidth, int maxHeight, String key){
-        Call<ResponseBody> responseBodyCall = repository.getPlacePhoto(photoReference,maxWidth,maxHeight,key);
-        responseBodyCall.enqueue(new PhotoResponseCallBack(currentPlaceDetail.getValue()));
-    }
-
     public void requestPlaceDetail(PlacesRepository repository, String fields, String placeId, String apiKey){
         Call<PlaceDetailResponse> detailResponseCall = repository.getPlaceDetail(fields,placeId,apiKey);
         detailResponseCall.enqueue(new PlaceDetailCallBack(this));

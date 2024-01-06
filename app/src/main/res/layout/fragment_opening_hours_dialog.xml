@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".dialogs.OpeningHoursDialogFragment">
+
+    <TextView
+        android:id="@+id/opening_hours_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10pt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="10dp"
+        android:text="Opening hours"/>
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="8pt"
+        android:layout_toLeftOf="@+id/opening_hours_text"
+        android:src="@drawable/ic_calendar"
+        android:layout_marginVertical="10dp"
+
+        android:scaleType="fitXY"
+        />
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/opening_hours_text"
+        android:layout_marginLeft="8pt"
+        android:src="@drawable/ic_time"
+        android:layout_marginVertical="10dp"
+        android:scaleType="fitXY"/>
+    <ImageView
+        android:id="@+id/close_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_close"
+        android:scaleType="fitXY"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/opening_hours_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8.5pt"
+        android:layout_below="@+id/opening_hours_text"
+        android:layout_centerHorizontal="true"
+        />
+
+
+</RelativeLayout>

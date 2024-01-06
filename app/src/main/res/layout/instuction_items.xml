@@ -9,7 +9,6 @@
         android:id="@+id/instruction_text"
         android:textSize="30dp"
         android:text="Test instruction phrase"
-        android:gravity="center"
         >
 
     </TextView>

@@ -36,6 +36,11 @@ public class PlaceDetailCallBack implements Callback<PlaceDetailResponse> {
     @Override
     public void onResponse(Call<PlaceDetailResponse> call, Response<PlaceDetailResponse> response) {
         if (response.isSuccessful()) {
+            if (!response.body().getStatus().equals("OK")){
+                Log.e(MainActivity.TAG, "Error status: "+ response.body().getStatus());
+                return;
+            }
+            Log.i(MainActivity.TAG, "found place detail " + response.body().getResult().toString());
             PlaceDetail detail = response.body().getResult();
             model.setCurrentPlaceDetail(detail);
         } else {

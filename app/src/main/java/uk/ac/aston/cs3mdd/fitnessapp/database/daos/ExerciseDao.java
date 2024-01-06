@@ -32,4 +32,7 @@ public interface ExerciseDao {
     @Delete
     void deleteMultiple(Exercise... exercises);
 
+    @Delete
+    void deleteAllExercises(List<Exercise> exercises);
+
 }

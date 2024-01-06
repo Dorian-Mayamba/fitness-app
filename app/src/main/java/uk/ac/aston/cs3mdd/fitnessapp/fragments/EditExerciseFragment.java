@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -70,6 +71,8 @@ public class EditExerciseFragment extends Fragment implements Validator.Validati
 
     private OnEditConfirmListener editConfirmListener;
 
+    private BottomNavigationView navigationView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,6 +100,7 @@ public class EditExerciseFragment extends Fragment implements Validator.Validati
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navigationView = view.findViewById(R.id.bottom_navigation);
         exerciseName.setText(exercise.getExerciseName());
         setEditText.setText(Integer.toString(exercise.getNumberOfSets()));
         repEditText.setText(Integer.toString(exercise.getNumberOfReps()));

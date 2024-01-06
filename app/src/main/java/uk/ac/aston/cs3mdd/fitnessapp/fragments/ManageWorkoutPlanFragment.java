@@ -102,7 +102,7 @@ public class ManageWorkoutPlanFragment extends Fragment implements SearchView.On
         recyclerView.setAdapter(exerciseAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         workoutDay = view.findViewById(R.id.workout_plan_day);
-        workoutDay.setText(String.format("%s exercises", DayUtil.getCurrentDayDisplayName()));
+        workoutDay.setText(String.format("%s exercises", days[workoutDayIndex]));
         leftArrow = view.findViewById(R.id.left_arrow);
         rightArrow = view.findViewById(R.id.right_arrow);
         leftArrow.setOnClickListener(new View.OnClickListener() {
@@ -155,8 +155,9 @@ public class ManageWorkoutPlanFragment extends Fragment implements SearchView.On
 
     @Override
     public void onResume() {
+        workoutDay.setText(String.format("%s exercises",days[workoutDayIndex]));
         try {
-            refreshListener.onWorkoutPlanFragmentRefresh(DayUtil.getCurrentDayDisplayName());
+            refreshListener.onWorkoutPlanFragmentRefresh(days[workoutDayIndex]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
