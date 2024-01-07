@@ -51,14 +51,14 @@ public class AddExerciseFragment extends Fragment implements Validator.Validatio
 
     private ImageView backButton;
 
-    @NotEmpty
+    @NotEmpty(message = "please enter a day")
     @ValidDay
     private AutoCompleteTextView dayView;
-    @NotEmpty
+    @NotEmpty(message = "please enter a number of sets")
     @ValidNumber
     private TextInputEditText setEditText;
 
-    @NotEmpty
+    @NotEmpty(message = "please enter a number of reps")
     @ValidNumber
     private TextInputEditText repEditText;
 
