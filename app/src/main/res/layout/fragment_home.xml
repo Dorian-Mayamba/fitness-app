@@ -31,7 +31,7 @@
         <com.smarteist.autoimageslider.SliderView
             android:id="@+id/slider_view"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="190dp"
             android:layout_marginBottom="4.5pt"
             app:sliderAnimationDuration="600"
             app:sliderAutoCycleDirection="back_and_forth"
@@ -41,7 +41,7 @@
             app:sliderIndicatorMargin="15dp"
             app:sliderIndicatorOrientation="horizontal"
             app:sliderIndicatorPadding="3dp"
-            app:sliderIndicatorRadius="2dp"
+            app:sliderIndicatorRadius="2.5dp"
             app:sliderIndicatorSelectedColor="#5A5A5A"
             app:sliderIndicatorUnselectedColor="#FFF"
             app:sliderScrollTimeInSec="1" />
@@ -64,14 +64,6 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_exercise" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="View exercises"
-                android:textColor="@color/white"
-                android:textSize="10pt" />
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -92,14 +84,7 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/full_body_routine_660x330" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="12pt"
-                android:text="View workout plans"
-                android:textColor="@color/white"
-                android:textSize="10pt" />
+
 
         </RelativeLayout>
 

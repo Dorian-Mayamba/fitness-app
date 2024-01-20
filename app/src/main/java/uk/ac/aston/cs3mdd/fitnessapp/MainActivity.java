@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements DeleteExerciseDia
     public void onAddConfirm(Exercise exercise, int numberOfSets, int numberOfReps, String day) {
         uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise exerciseToAdd = new uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise();
         for (uk.ac.aston.cs3mdd.fitnessapp.database.entities.Exercise e : model.getAllElements().getValue()) {
-            if (e.getExerciseName().equals(exercise.getName())) {
+            if (e.getExerciseName().equals(exercise.getName()) && e.getWorkoutDay().equals(day)) {
                 new AddExerciseErrorDialogFragment("The exercise " + exercise.getName() + " is already saved in your plans").show(getSupportFragmentManager(), "ADD_EXERCISE_ERROR");
                 return;
             }
